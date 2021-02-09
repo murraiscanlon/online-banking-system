@@ -1,7 +1,7 @@
 import re
 
 
-# Step 1
+# Step 1 bank dict
 def import_and_create_dictionary(filename):
     '''
     This function is used to create a bank dictionary.  The given argument is the filename to load.
@@ -38,7 +38,7 @@ def import_and_create_dictionary(filename):
                     d.update({key: value})
                 else:
                     d[key] = value
-
+    print(f'bank dictionary: {d}')
     return d
 
 
@@ -226,3 +226,96 @@ def login(user_accounts, log_in, username, password):
     else:
         print(f'password must include at least 1: lowercase, uppercase, and number: {username} - {password}')
         return False
+
+
+# Step 5
+def update(bank, log_in, username, amount):
+    '''
+    In this function, you will try to update the given user's bank account with the given amount.
+    The amount is an integer, and can either be positive or negative.
+
+    To update the user's account with the amount, the following requirements must be met:
+    - The user exists in log_in and his/her status is True, meaning, the user is logged in.
+
+    If the user doesn't exist in the bank, create the user.
+    - The given amount can not result in a negative balance in the bank account.
+
+    return True if the user's account was updated.
+
+    For example:
+    - Calling update(bank, log_in, "Brandon", 100) will return False, unless "Brandon" is first logged in.  Then it
+    will return True.
+    - Calling update(bank, log_in, "Brandon", -200) will return False
+    '''
+
+    # your code here
+    update_status = False  # May not need this. Not sure of convention. No return statement at the very end
+    current_amount = 0.0
+
+    if username in log_in:  # program throws KeyError without this line first
+        if not log_in[username]:  # log-in value must be True to proceed
+            print(f'user is not logged-in: {username}')
+            return False
+    else:
+        print(f'user is not found in log_in: {username}')
+        return False
+
+    if username not in bank:
+        bank[username] = current_amount
+        print(f'user has been added: {username}, with initial amount -  {bank[username]}')
+
+    # Update the account balance
+    current_amount = bank[username]
+    if amount > 0:
+        bank.update({username: (current_amount + amount)})
+        print(f'account deposit successful: {username}: previous balance = {current_amount}, new balance = {bank[username]} ')
+        return True
+    elif amount < 0:
+        if current_amount + amount < 0:
+            print(f'Unable to complete the transaction: {username} {amount}')
+            return False
+        else:
+            current_amount = bank[username]
+            bank.update({username: (current_amount + amount)})
+            print(f'account withdraw successful: previous balance = {current_amount}, new balance = {bank[username]} ')
+            return True
+    else:
+        print(f'An error has occurred in the update amount function')
+        return False
+
+
+# Step 6
+def transfer(bank, log_in, userA, userB, amount):
+    '''
+    In this function, you will try to make a transfer between two user accounts.
+    The bank is a dictionary, where the key is the username and the value is the amount to transfer.
+    Amount is always positive.
+
+    What you will do:
+    - Deduct the amount from userA and add it to userB, which makes a transfer.
+    - You should consider some following cases:
+      - userA must be in accounts and his/her log-in status must be True.
+      - userB must be in log_in, regardless of log-in status.  userB can be absent in accounts.
+      - No user can have a negative amount. He/she must have a positive or zero amount.
+
+    Return True if a transfer is made. If a user is invalid or the amount is invalid, return False.
+    userA must be in bank and userB can be absent from bank. No user can have a negative balance.
+    Each must have a positive or zero balance
+
+    For example:
+    - Calling transfer(bank, log_in, "BrandonK", "Jack", 100) will return False
+    - Calling transfer(bank, log_in, "Brandon", "JackC", 100) will return False
+    - After logging "Brandon" in, calling transfer(bank, log_in, "Brandon", "Jack", 10) will return True
+    - Calling transfer(bank, log_in, "Brandon", "Jack", 200) will return False
+
+    Note that the arguments correspond as follows:
+        o bank: The bank accounts dictionary
+        o log_in: The user accounts dictionary
+        o userA: The account from which the funds will be transferred
+        o userB: The account to which the funds will be transferred
+        o amount: The amount to transfer
+    '''
+
+    # your code here
+
+
