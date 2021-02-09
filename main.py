@@ -2,9 +2,10 @@ from functions import *
 
 username = 'BrandonK'
 password = ''
-amount = 100
-userA = 'BrandonK'
-userB = 'Jack'
+amount = 10
+
+userA = 'Brandon'
+userB = 'BrandonK'
 
 
 # Step 1

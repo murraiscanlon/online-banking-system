@@ -317,5 +317,36 @@ def transfer(bank, log_in, userA, userB, amount):
     '''
 
     # your code here
+    if userA not in bank:
+        print(f'{userA} is not in the bank dictionary')
+        return False
+    if userA not in log_in or userB not in log_in:
+        print(f'{userA} or {userB} was not found in log_in dictionary')
+        return False
+    if not log_in[userA]:
+        print(f'{userA} is not logged-in')
+        return False
+    if amount > bank[userA]:
+        print(f'not enough funds to make the transfer from {userA}, current amount = {bank[userA]}')
+        return False
+    if userB not in bank:
+        bank[userB] = 0.0
+    if bank[userA] < 0 or bank[userB] < 0:
+        print(f'{userA} or {userB} has a current negative balance')
+        return False
+
+    #Make transfer
+    #TODO This is only updating the bank parameter dictionary, NOT the bank.txt
+    current_amount_userA = bank[userA]
+    current_amount_userB = bank[userB]
+    bank.update({ userA: (current_amount_userA - amount)})
+    bank.update({ userB: (current_amount_userB + amount)})
+    print(f'transfer successful, {userA} new balance = {bank[userA]}, {userB} new balance = {bank[userB]}')
+    return True
+
+
+
+
+
 
 
