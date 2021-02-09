@@ -1,7 +1,7 @@
 from functions import *
 
 username = 'Brandon'
-password = ''
+password = 'brandon123ABC'
 amount = 10
 
 userA = 'Brandon'
@@ -59,4 +59,4 @@ log_in = {
 #TODO I forgot how to get the key to print out rather than just the value
 
 # Step 8
-
+delete_account(user_accounts, log_in, bank, username, password)

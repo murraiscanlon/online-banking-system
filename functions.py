@@ -399,6 +399,37 @@ def change_password(user_accounts, log_in, username, old_password, new_password)
     print(f'an error has occurred. Password has not been updated: {username}')
     return False
 
+# Step 8
+def delete_account(user_accounts, log_in, bank, username, password):
+    '''
+    Deletes the user from the user_accounts.
+    If the following requirements are met, delete the user from user_accounts and return True.  Otherwise, return False.
+    - The user exists in user_accounts and the password is correct.
+
+    For example:
+    - Calling delete_account(user_accounts, log_in, bank, "BrandonK", "123abcABC") will return False
+    - Calling delete_account(user_accounts, log_in, bank, "Brandon", "123abcABDC") will return False
+    - If you first log "Brandon" in, calling delete_account(user_accounts, log_in, bank, "Brandon", "brandon123ABC")
+    will return True
+    '''
+
+    # your code here
+    if username not in user_accounts:
+        print(f'{username} was not found')
+        return False
+    if user_accounts[username] != password:
+        print(f'{username} incorrect password')
+        return False
+    if not log_in[username]:
+        print(f'{username} is not currently logged in')
+        return False
+
+    deleted_account = user_accounts.pop(username)
+    deleted_account = log_in.pop(username)
+    deleted_account = bank.pop(username)
+
+    print(f'{username} has been successfully removed from user_accounts, log_in, and bank dicts')
+    return True
 
 
 
