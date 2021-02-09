@@ -1,28 +1,31 @@
 from functions import *
 
-username = 'a1234567A'
-password = 'a1234567A'
+username = 'Brandon'
+password = 'brandon123ABC'
 
 # Step 1
 # import_and_create_dictionary('bank.txt')
 
 user_accounts = {
-    'Fred Smith': 'a1234567A',
-    'Bob Bannerman': 'ABC1234',
-    'Alice Ackerman': 'b1234567B',
-    'Betty Boop': 'abcdefg',
-    'Carl Chattyman': '1223abcABC',
-    'Jeff': ''
+    'Brandon': 'brandon123ABC',
+    'Jack': 'jack123POU',
+    'James': '100jamesABD',
+    'Sarah': 'sd896ssfJJH',
 }
 
 log_in = {
-    'Carl Chattyman': True
+    'Brandon': True,
+    'Jack': False,
+    'James': False,
+    'Sarah': False,
 }
 
 # Step 2
 # signup(user_accounts, log_in, username, password)
 
 # Step 3
-import_and_create_accounts('user.txt')
+#import_and_create_accounts('user.txt')
 
 # Step 4
+login(user_accounts, log_in, username, password)
+

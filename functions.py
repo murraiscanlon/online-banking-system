@@ -40,6 +40,8 @@ def import_and_create_dictionary(filename):
                     d[key] = value
 
     return d
+
+
 # For Testing
 # result = import_and_create_dictionary('bank.txt')
 # print(f"import_and_create_dictionary, result: {result}")
@@ -92,11 +94,11 @@ def signup(user_accounts, log_in, username, password):
     if status1 and status2 and status3:
         user_accounts[username] = password
         print('log-in successful')
-        #TODO Do I set log-ins to False here or in the next function? Why is log-in a parameter??
+        # TODO Do I set log-ins to False here or in the next function? Why is log-in a parameter??
     else:
         print('password must include at least 1: lowercase, uppercase, and number')
 
-    print(f"user_accounts dict: {user_accounts}") # for testing
+    print(f"user_accounts dict: {user_accounts}")  # for testing
     return status1 and status2 and status3
 
 
@@ -140,21 +142,23 @@ def import_and_create_accounts(filename):
                 status4 = False
                 print(f'username and password can not be the same: {user_list[0]} - {user_list[1]}')
 
-            status1 = status2 = status3 = False # password charcter validation
+            status1 = status2 = status3 = False  # password charcter validation
             for c in user_list[1]:
-                if 64 < ord(c) < 91: #Uppercase
+                if 64 < ord(c) < 91:  # Uppercase
                     status1 = True
-                if 96 < ord(c) < 123: #Lowercase
+                if 96 < ord(c) < 123:  # Lowercase
                     status2 = True
-                if 47 < ord(c) < 58: #numbers 0-9
+                if 47 < ord(c) < 58:  # numbers 0-9
                     status3 = True
 
             if status1 and status2 and status3 and status4:
                 user_accounts[user_list[0]] = user_list[1]
                 log_in[user_list[0]] = False
-                print(f'credentials successfully added to user_accounts dictionary and inital log_in dictionary: {user_list[0]} - {user_list[1]}')
+                print(
+                    f'credentials successfully added to user_accounts dictionary and inital log_in dictionary: {user_list[0]} - {user_list[1]}')
             else:
-                print(f'password must include at least 1: lowercase, uppercase, and number: {user_list[0]} - {user_list[1]}')
+                print(
+                    f'password must include at least 1: lowercase, uppercase, and number: {user_list[0]} - {user_list[1]}')
         except IndexError as e:
             print(f'IndexError exception handled: {user_list[0]}')
 
@@ -162,6 +166,63 @@ def import_and_create_accounts(filename):
     print(f'log_in dictionary: {log_in}')
     return user_accounts, log_in
 
+
 # Step 4
+def login(user_accounts, log_in, username, password):
+    '''
+    This function allows users to log in with their username and password.
+    The users_accounts stores the usernames and passwords.
 
+    If the username does not exist or the password is incorrect, return False.
+    Otherwise, return True.
 
+    For example:
+    - Calling login(user_accounts, "Brandon", "123abcAB") will return False
+    - Calling login(user_accounts, "Brandon", "brandon123ABC") will return True
+
+    Note: If a user is already logged in, this should return False - a user cannot log
+    in a second time once logged in
+    '''
+
+    # your code here
+    # if log_in[username]: # Check to see if user is already logged-in
+    #     print(f'user already logged in: {username}')
+    #     return False
+
+    if username not in user_accounts:
+        print(f'username is not found: {username}')
+        return False
+    elif user_accounts[username] != password:
+        print(f'username and password do not match: {username} {password}')
+        return False
+    else:
+        if log_in[username]:
+            print(f'already logged-in: {username} {password}')
+            return False
+
+    # Validate password. . .the long way. . .AGAIN
+    if len(password) < 8:
+        print(f'Password is not long enough: {username} - {password}')
+        return False
+    if username == password:
+        print(f'username and password can not be the same: {username} - {password}')
+        return False
+
+    status1 = status2 = status3 = False  # password charcter validation
+    for c in password:
+        if 64 < ord(c) < 91:  # Uppercase
+            status1 = True
+        if 96 < ord(c) < 123:  # Lowercase
+            status2 = True
+        if 47 < ord(c) < 58:  # numbers 0-9
+            status3 = True
+
+    if status1 and status2 and status3:
+        log_in.update({username: True})
+        print(f'log-in successful: {username} - {password}')
+        print(f'log_in dictionary: {log_in}')
+        print(f'user_accounts dictionary: {user_accounts}')
+        return True
+    else:
+        print(f'password must include at least 1: lowercase, uppercase, and number: {username} - {password}')
+        return False
