@@ -87,10 +87,11 @@ def signup(user_accounts, log_in, username, password):
     for c in password:
         if 64 < ord(c) < 91:
             status1 = True
-            if 96 < ord(c) < 123:
-                status2 = True
-                if 47 < ord(c) < 58:
-                    status3 = True
+        if 96 < ord(c) < 123:
+            status2 = True
+        if 47 < ord(c) < 58:
+            status3 = True
+
     if status1 and status2 and status3:
         user_accounts[username] = password
         print('log-in successful')
@@ -343,6 +344,62 @@ def transfer(bank, log_in, userA, userB, amount):
     bank.update({ userB: (current_amount_userB + amount)})
     print(f'transfer successful, {userA} new balance = {bank[userA]}, {userB} new balance = {bank[userB]}')
     return True
+
+# Step 7
+def change_password(user_accounts, log_in, username, old_password, new_password):
+    '''
+    This function allows users to change their password.
+
+    If all of the following requirements are met, change the password and return True. Otherwise, return False.
+    - The username exists in the user_accounts.
+    - The old_password is the user's current password.
+    - The new_password should be different from the old one.
+    - The new_password fulfills the requirement in signup.
+
+    For example:
+    - Calling change_password(user_accounts, log_in, "BrandonK", "123abcABC" ,"123abcABCD") will return False
+    - Calling change_password(user_accounts, log_in, "Brandon", "123abcABCD", "123abcABCDE") will return False
+    - Calling change_password(user_accounts, log_in, "Brandon", "brandon123ABC", "brandon123ABC") will return False
+    - Calling change_password(user_accounts, log_in, "Brandon", "brandon123ABC", c"123abcABCD") will return True
+
+    Hint: Think about defining and using a separate valid(password) function that checks the validity of a given password.
+    This will also come in handy when writing the signup() function.
+    '''
+
+    # your code here
+    if username not in user_accounts:
+        print(f'{username} not in user_accounts dict')
+        return False
+    if user_accounts[username] != old_password:
+        print(f'{old_password} does not match the original password')
+        return False
+
+    if new_password == old_password:
+        print(f'{new_password} should not match {old_password}')
+        return False
+
+    if len(new_password) < 8:
+        print('new_password is not long enough')
+        return False
+
+    status1 = status2 = status3 = False
+    for c in new_password:
+        if 64 < ord(c) < 91:
+            status1 = True
+        if 96 < ord(c) < 123:
+            status2 = True
+        if 47 < ord(c) < 58:
+            status3 = True
+
+    if status1 and status2 and status3:
+        user_accounts.update({username: new_password})
+        print(f'password updated for {username}')
+        return True
+
+    print(f'an error has occurred. Password has not been updated: {username}')
+    return False
+
+
 
 
 
