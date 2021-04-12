@@ -42,7 +42,7 @@ log_in = {
 # signup(user_accounts, log_in, username, password)
 
 # Step 3
-#import_and_create_accounts('user.txt')
+import_and_create_accounts('user.txt')
 
 # Step 4
 # login(user_accounts, log_in, username, password)
@@ -59,4 +59,4 @@ log_in = {
 #TODO I forgot how to get the key to print out rather than just the value
 
 # Step 8
-delete_account(user_accounts, log_in, bank, username, password)
+# delete_account(user_accounts, log_in, bank, username, password)
