@@ -1,7 +1,7 @@
 from termcolor import colored
 
 
-# Step 2
+# User can sign up for an account.
 def signup(user_accounts: dict, log_in: dict, username: str, password: str) -> bool:
     '''
     This function allows users to sign up.
@@ -49,7 +49,7 @@ def signup(user_accounts: dict, log_in: dict, username: str, password: str) -> b
     return True
 
 
-# Step 4
+# Once user has signed-up, they can log in to their account
 def login(user_accounts: dict, log_in: dict, username: str, password: str) -> bool:
     '''
     This function allows users to log in with their username and password.
@@ -102,7 +102,6 @@ def login(user_accounts: dict, log_in: dict, username: str, password: str) -> bo
         return False
 
 
-# Step 5
 def update(bank, log_in, username, amount):
     '''
     In this function, you will try to update the given user's bank account with the given amount.
@@ -159,7 +158,6 @@ def update(bank, log_in, username, amount):
         return False
 
 
-# Step 6
 def transfer(bank, log_in, userA, userB, amount):
     '''
     In this function, you will try to make a transfer between two user accounts.
@@ -220,8 +218,7 @@ def transfer(bank, log_in, userA, userB, amount):
     return True
 
 
-# Step 7
-def change_password(user_accounts, log_in, username, old_password, new_password):
+def change_password(user_accounts: dict, log_in: dict, username: str, old_password: str, new_password: str) -> bool:
     '''
     This function allows users to change their password.
 
@@ -258,30 +255,18 @@ def change_password(user_accounts, log_in, username, old_password, new_password)
         print(f'{new_password} should not match {old_password}')
         return False
 
-    if len(new_password) < 8:
-        print('new_password is not long enough')
-        return False
+    isValidPassword = validate_password(new_password)
 
-    status1 = status2 = status3 = False
-    for c in new_password:
-        if 64 < ord(c) < 91:
-            status1 = True
-        if 96 < ord(c) < 123:
-            status2 = True
-        if 47 < ord(c) < 58:
-            status3 = True
-
-    if status1 and status2 and status3:
+    if isValidPassword:
         user_accounts.update({username: new_password})
-        print(f'password updated for {username}')
+        print(colored('password updated for {username}', 'green'))
         return True
 
-    print(f'an error has occurred. Password has not been updated: {username}')
+    print(f'an error has occurred. Password has not been updated for: {username}')
     return False
 
 
-# Step 8
-def delete_account(user_accounts, log_in, bank, username, password):
+def delete_account(user_accounts: dict, log_in: dict, bank: dict, username: str, password: str) -> bool:
     '''
     Deletes the user from the user_accounts.
     If the following requirements are met, delete the user from user_accounts and return True.  Otherwise, return False.
@@ -313,6 +298,7 @@ def delete_account(user_accounts, log_in, bank, username, password):
     return True
 
 
+# Helper function for signup and login
 def validate_password(password: str) -> bool:
     if len(password) < 8:
         print(colored(f'\nError: Password is not long enough: "{password}"', 'red'))
