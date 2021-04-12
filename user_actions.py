@@ -2,7 +2,7 @@ from termcolor import colored
 
 
 # Step 2
-def signup(user_accounts, log_in, username, password):
+def signup(user_accounts: dict, log_in: dict, username: str, password: str) -> bool:
     '''
     This function allows users to sign up.
     If both username and password meet the requirements, updates the username and the corresponding password in the user_accounts,
@@ -30,23 +30,14 @@ def signup(user_accounts, log_in, username, password):
     if username in user_accounts:
         print('username already exists')
         return False
-    if len(password) < 8:
-        print('Password is not long enough')
-        return False
+
     if username == password:
         print('username and password can not be the same')
         return False
 
-    status1 = status2 = status3 = False
-    for c in password:
-        if 64 < ord(c) < 91:
-            status1 = True
-        if 96 < ord(c) < 123:
-            status2 = True
-        if 47 < ord(c) < 58:
-            status3 = True
+    isValidPassword = validate_password(password)
 
-    if status1 and status2 and status3:
+    if isValidPassword:
         user_accounts[username] = password
         log_in[username] = False
         print('log-in successful')
@@ -55,7 +46,7 @@ def signup(user_accounts, log_in, username, password):
         print('password must include at least 1: lowercase, uppercase, and number')
 
     print(f"user_accounts dict: {user_accounts}")  # for testing
-    return status1 and status2 and status3
+    return True
 
 
 # Step 4
@@ -91,32 +82,23 @@ def login(user_accounts: dict, log_in: dict, username: str, password: str) -> bo
             print(colored(f'\nError: already logged-in: "{username}" "{password}"', 'red'))
             return False
 
-    # Validate password. . .the long way. . .AGAIN
-    if len(password) < 8:
-        print(colored(f'\nError: Password is not long enough: "{username} - {password}"', 'red'))
-        return False
     if username == password:
         print(colored(f'\nusername and password can not be the same: "{username} - {password}"'), 'red')
         return False
 
-    status1 = status2 = status3 = False  # password charcter validation
-    for c in password:
-        if 64 < ord(c) < 91:  # Uppercase
-            status1 = True
-        if 96 < ord(c) < 123:  # Lowercase
-            status2 = True
-        if 47 < ord(c) < 58:  # numbers 0-9
-            status3 = True
+    isValidPassword = validate_password(password)
 
-    if status1 and status2 and status3:
+    if isValidPassword:
         log_in.update({username: True})
-        print(colored(f'\nLog-in successful: "{username} - {password}"', 'green')) #take out username and password
+        print(colored(f'\nLog-in successful: "{username} - {password}"', 'green'))  # take out username and password
         # For testing
         print(f'\nlog_in dictionary: {log_in}')
         print(f'\nuser_accounts dictionary: {user_accounts}')
         return True
     else:
-        print(colored(f'\npassword must include at least 1: lowercase, uppercase, and number: "{username} - {password}"', 'red'))
+        print(
+            colored(f'\npassword must include at least 1: lowercase, uppercase, and number: "{username} - {password}"',
+                    'red'))
         return False
 
 
@@ -329,3 +311,21 @@ def delete_account(user_accounts, log_in, bank, username, password):
 
     print(f'{username} has been successfully removed from user_accounts, log_in, and bank dicts')
     return True
+
+
+def validate_password(password: str) -> bool:
+    if len(password) < 8:
+        print(colored(f'\nError: Password is not long enough: "{password}"', 'red'))
+        return False
+
+    status1 = status2 = status3 = False  # password charcter validation
+
+    for c in password:
+        if 64 < ord(c) < 91:  # Uppercase
+            status1 = True
+        if 96 < ord(c) < 123:  # Lowercase
+            status2 = True
+        if 47 < ord(c) < 58:  # numbers 0-9
+            status3 = True
+
+    return status1 and status2 and status3
