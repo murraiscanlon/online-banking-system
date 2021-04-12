@@ -1,8 +1,9 @@
 import re
+import typing
 
 
 # Step 1 bank dict
-def import_and_create_dictionary(filename):
+def import_and_create_dictionary(filename: str) -> dict:
     '''
     This function is used to create a bank dictionary.  The given argument is the filename to load.
     Every line in the file will look like
@@ -46,7 +47,7 @@ def import_and_create_dictionary(filename):
 
 
 # Step 3
-def import_and_create_accounts(filename):
+def import_and_create_accounts(filename: str) -> tuple:
     '''
     This function is used to create an user accounts dictionary and another login dictionary.  The given argument is the filename to load.
     Every line in the file will look like

@@ -1,3 +1,6 @@
+from termcolor import colored
+
+
 # Step 2
 def signup(user_accounts, log_in, username, password):
     '''
@@ -54,8 +57,9 @@ def signup(user_accounts, log_in, username, password):
     print(f"user_accounts dict: {user_accounts}")  # for testing
     return status1 and status2 and status3
 
+
 # Step 4
-def login(user_accounts, log_in, username, password):
+def login(user_accounts: dict, log_in: dict, username: str, password: str) -> bool:
     '''
     This function allows users to log in with their username and password.
     The users_accounts stores the usernames and passwords.
@@ -77,22 +81,22 @@ def login(user_accounts, log_in, username, password):
     #     return False
 
     if username not in user_accounts:
-        print(f'username is not found: {username}')
+        print(colored(f'\nError: username is not found: "{username}"', 'red'))
         return False
     elif user_accounts[username] != password:
-        print(f'username and password do not match: {username} {password}')
+        print(colored(f'\nError: username and password do not match: "{username}" "{password}"', 'red'))
         return False
     else:
         if log_in[username]:
-            print(f'already logged-in: {username} {password}')
+            print(colored(f'\nError: already logged-in: "{username}" "{password}"', 'red'))
             return False
 
     # Validate password. . .the long way. . .AGAIN
     if len(password) < 8:
-        print(f'Password is not long enough: {username} - {password}')
+        print(colored(f'\nError: Password is not long enough: "{username} - {password}"', 'red'))
         return False
     if username == password:
-        print(f'username and password can not be the same: {username} - {password}')
+        print(colored(f'\nusername and password can not be the same: "{username} - {password}"'), 'red')
         return False
 
     status1 = status2 = status3 = False  # password charcter validation
@@ -106,12 +110,13 @@ def login(user_accounts, log_in, username, password):
 
     if status1 and status2 and status3:
         log_in.update({username: True})
-        print(f'log-in successful: {username} - {password}')
-        print(f'log_in dictionary: {log_in}')
-        print(f'user_accounts dictionary: {user_accounts}')
+        print(colored(f'\nLog-in successful: "{username} - {password}"', 'green')) #take out username and password
+        # For testing
+        print(f'\nlog_in dictionary: {log_in}')
+        print(f'\nuser_accounts dictionary: {user_accounts}')
         return True
     else:
-        print(f'password must include at least 1: lowercase, uppercase, and number: {username} - {password}')
+        print(colored(f'\npassword must include at least 1: lowercase, uppercase, and number: "{username} - {password}"', 'red'))
         return False
 
 
@@ -155,7 +160,8 @@ def update(bank, log_in, username, amount):
     current_amount = bank[username]
     if amount > 0:
         bank.update({username: (current_amount + amount)})
-        print(f'account deposit successful: {username}: previous balance = {current_amount}, new balance = {bank[username]} ')
+        print(
+            f'account deposit successful: {username}: previous balance = {current_amount}, new balance = {bank[username]} ')
         return True
     elif amount < 0:
         if current_amount + amount < 0:
@@ -222,14 +228,15 @@ def transfer(bank, log_in, userA, userB, amount):
         print(f'{userA} or {userB} has a current negative balance')
         return False
 
-    #Make transfer
-    #TODO This is only updating the bank parameter dictionary, NOT the bank.txt
+    # Make transfer
+    # TODO This is only updating the bank parameter dictionary, NOT the bank.txt
     current_amount_userA = bank[userA]
     current_amount_userB = bank[userB]
-    bank.update({ userA: (current_amount_userA - amount)})
-    bank.update({ userB: (current_amount_userB + amount)})
+    bank.update({userA: (current_amount_userA - amount)})
+    bank.update({userB: (current_amount_userB + amount)})
     print(f'transfer successful, {userA} new balance = {bank[userA]}, {userB} new balance = {bank[userB]}')
     return True
+
 
 # Step 7
 def change_password(user_accounts, log_in, username, old_password, new_password):
@@ -289,6 +296,7 @@ def change_password(user_accounts, log_in, username, old_password, new_password)
 
     print(f'an error has occurred. Password has not been updated: {username}')
     return False
+
 
 # Step 8
 def delete_account(user_accounts, log_in, bank, username, password):
