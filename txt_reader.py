@@ -4,26 +4,8 @@ import typing
 
 # Step 1 bank dict
 def import_and_create_dictionary(filename: str) -> dict:
-    '''
-    This function is used to create a bank dictionary.  The given argument is the filename to load.
-    Every line in the file will look like
-    key: value
-    Key is a user's name and value is an amount to update the user's bank account with.  The value should be a
-    number, however, it is possible that there is no value or that the value is an invalid number.
-
-    What you will do:
-    - Try to make a dictionary from the contents of the file.
-    - If the key doesn't exist, create a new key:value pair.
-    - If the key does exist, increment its value with the amount.
-    - You should also handle cases when the value is invalid.  If so, ignore that line and don't update the dictionary.
-    - Finally, return the dictionary.
-
-    Note: All of the users in the bank file are in the user account file.
-    '''
-
     d = {}
 
-    # your code here
     for line in open(filename, 'r+'):
         pairlist = line.split('\n')
         pairwords = pairlist[0].split(':')
@@ -39,35 +21,16 @@ def import_and_create_dictionary(filename: str) -> dict:
                     d.update({key: value})
                 else:
                     d[key] = value
-    print(f'bank dictionary: {d}')
+    # testing
+    # print(f'bank dictionary: {d}')
     return d
-
-
-
 
 
 # Step 3
 def import_and_create_accounts(filename: str) -> tuple:
-    '''
-    This function is used to create an user accounts dictionary and another login dictionary.  The given argument is the filename to load.
-    Every line in the file will look like
-      username - password
-
-    If the username and password fulfills the requirement, add the username and password into the user accounts dictionary.
-    To make sure that the password fulfills these requirements, be sure to use the signup function that you wrote above.
-
-    For the login dictionary, the key is the username, and its value indicates whether the user is logged in, or not.
-    Initially, all users are not logged in.
-
-    Finally, return the dictionaries.
-
-    Note: All of the users in the bank file are in the user account file.
-    '''
-
     user_accounts = {}
     log_in = {}
 
-    # your code here
     for line in open(filename, 'r+'):
         user_list = line.strip().split(' - ')
 
@@ -98,14 +61,15 @@ def import_and_create_accounts(filename: str) -> tuple:
             if status1 and status2 and status3 and status4:
                 user_accounts[user_list[0]] = user_list[1]
                 log_in[user_list[0]] = False
-                print(
-                    f'credentials successfully added to user_accounts dictionary and inital log_in dictionary: {user_list[0]} - {user_list[1]}')
-            else:
-                print(
-                    f'password must include at least 1: lowercase, uppercase, and number: {user_list[0]} - {user_list[1]}')
+            #     print(
+            #         f'credentials successfully added to user_accounts dictionary and inital log_in dictionary: {user_list[0]} - {user_list[1]}')
+            # else:
+            #     print(
+            #         f'password must include at least 1: lowercase, uppercase, and number: {user_list[0]} - {user_list[1]}')
         except IndexError as e:
             print(f'IndexError exception handled: {user_list[0]}')
 
-    print(f'user_accounts dictionary: {user_accounts}')
-    print(f'log_in dictionary: {log_in}')
+    # debugging
+    # print(f'user_accounts dictionary: {user_accounts}')
+    # print(f'log_in dictionary: {log_in}')
     return user_accounts, log_in

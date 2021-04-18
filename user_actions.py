@@ -1,32 +1,9 @@
 from termcolor import colored
+from txt_writer import  update_user, update_bank
 
 
 # User can sign up for an account.
-def signup(user_accounts: dict, log_in: dict, username: str, password: str) -> bool:
-    '''
-    This function allows users to sign up.
-    If both username and password meet the requirements, updates the username and the corresponding password in the user_accounts,
-    and returns True.
-
-    If the username and password fail to meet any one of the following requirements, returns False.
-    - The username already exists in the user_accounts.
-    - The password must be at least 8 characters.
-    - The password must contain at least one lowercase character.
-    - The password must contain at least one uppercase character.
-    - The password must contain at least one number.
-    - The username & password cannot be the same.
-
-    For example:
-    - Calling signup(user_accounts, log_in, "Brandon", "123abcABCD") will return False
-    - Calling signup(user_accounts, log_in, "BrandonK", "123ABCD") will return False
-    - Calling signup(user_accounts, log_in, "BrandonK","abcdABCD") will return False
-    - Calling signup(user_accounts, log_in, "BrandonK", "123aABCD") will return True. Then calling
-    signup(user_accounts, log_in, "BrandonK", "123aABCD") again will return False.
-
-    Hint: Think about defining and using a separate valid(password) function that checks the validity of a given password.
-    This will also come in handy when writing the change_password() function.
-    '''
-    # your code here
+def signup(user_accounts: dict, log_in: dict, username: str, password: str, bnk: dict) -> bool:
     if username in user_accounts:
         print('username already exists')
         return False
@@ -40,37 +17,20 @@ def signup(user_accounts: dict, log_in: dict, username: str, password: str) -> b
     if isValidPassword:
         user_accounts[username] = password
         log_in[username] = False
-        print('log-in successful')
+        update_user(user_accounts)
+        bnk[username] = "0"
+        update_bank(bnk)
+        print(f'Account successfully created for "{username}"')
         # TODO Do I set log-ins to False here or in the next function? Why is log-in a parameter??
     else:
         print('password must include at least 1: lowercase, uppercase, and number')
-
-    print(f"user_accounts dict: {user_accounts}")  # for testing
+    # debugging
+    # print(f"user_accounts dict: {user_accounts}")
     return True
 
 
 # Once user has signed-up, they can log in to their account
 def login(user_accounts: dict, log_in: dict, username: str, password: str) -> bool:
-    '''
-    This function allows users to log in with their username and password.
-    The users_accounts stores the usernames and passwords.
-
-    If the username does not exist or the password is incorrect, return False.
-    Otherwise, return True.
-
-    For example:
-    - Calling login(user_accounts, "Brandon", "123abcAB") will return False
-    - Calling login(user_accounts, "Brandon", "brandon123ABC") will return True
-
-    Note: If a user is already logged in, this should return False - a user cannot log
-    in a second time once logged in
-    '''
-
-    # your code here
-    # if log_in[username]: # Check to see if user is already logged-in
-    #     print(f'user already logged in: {username}')
-    #     return False
-
     if username not in user_accounts:
         print(colored(f'\nError: username is not found: "{username}"', 'red'))
         return False
@@ -90,10 +50,10 @@ def login(user_accounts: dict, log_in: dict, username: str, password: str) -> bo
 
     if isValidPassword:
         log_in.update({username: True})
-        print(colored(f'\nLog-in successful: "{username} - {password}"', 'green'))  # take out username and password
+        print(colored(f'\nLog-in successful.', 'green'))
         # For testing
-        print(f'\nlog_in dictionary: {log_in}')
-        print(f'\nuser_accounts dictionary: {user_accounts}')
+        # print(f'\nlog_in dictionary: {log_in}')
+        # print(f'\nuser_accounts dictionary: {user_accounts}')
         return True
     else:
         print(
@@ -102,26 +62,8 @@ def login(user_accounts: dict, log_in: dict, username: str, password: str) -> bo
         return False
 
 
+# update account balance
 def update(bank, log_in, username, amount):
-    '''
-    In this function, you will try to update the given user's bank account with the given amount.
-    The amount is an integer, and can either be positive or negative.
-
-    To update the user's account with the amount, the following requirements must be met:
-    - The user exists in log_in and his/her status is True, meaning, the user is logged in.
-
-    If the user doesn't exist in the bank, create the user.
-    - The given amount can not result in a negative balance in the bank account.
-
-    return True if the user's account was updated.
-
-    For example:
-    - Calling update(bank, log_in, "Brandon", 100) will return False, unless "Brandon" is first logged in.  Then it
-    will return True.
-    - Calling update(bank, log_in, "Brandon", -200) will return False
-    '''
-
-    # your code here
     update_status = False  # May not need this. Not sure of convention. No return statement at the very end
     current_amount = 0.0
 
@@ -141,6 +83,7 @@ def update(bank, log_in, username, amount):
     current_amount = bank[username]
     if amount > 0:
         bank.update({username: (current_amount + amount)})
+        update_bank(bank)
         print(
             f'account deposit successful: {username}: previous balance = {current_amount}, new balance = {bank[username]} ')
         return True
@@ -151,6 +94,7 @@ def update(bank, log_in, username, amount):
         else:
             current_amount = bank[username]
             bank.update({username: (current_amount + amount)})
+            update_bank(bank)
             print(f'account withdraw successful: previous balance = {current_amount}, new balance = {bank[username]} ')
             return True
     else:
@@ -158,38 +102,8 @@ def update(bank, log_in, username, amount):
         return False
 
 
+# transfer from one account to another
 def transfer(bank, log_in, userA, userB, amount):
-    '''
-    In this function, you will try to make a transfer between two user accounts.
-    The bank is a dictionary, where the key is the username and the value is the amount to transfer.
-    Amount is always positive.
-
-    What you will do:
-    - Deduct the amount from userA and add it to userB, which makes a transfer.
-    - You should consider some following cases:
-      - userA must be in accounts and his/her log-in status must be True.
-      - userB must be in log_in, regardless of log-in status.  userB can be absent in accounts.
-      - No user can have a negative amount. He/she must have a positive or zero amount.
-
-    Return True if a transfer is made. If a user is invalid or the amount is invalid, return False.
-    userA must be in bank and userB can be absent from bank. No user can have a negative balance.
-    Each must have a positive or zero balance
-
-    For example:
-    - Calling transfer(bank, log_in, "BrandonK", "Jack", 100) will return False
-    - Calling transfer(bank, log_in, "Brandon", "JackC", 100) will return False
-    - After logging "Brandon" in, calling transfer(bank, log_in, "Brandon", "Jack", 10) will return True
-    - Calling transfer(bank, log_in, "Brandon", "Jack", 200) will return False
-
-    Note that the arguments correspond as follows:
-        o bank: The bank accounts dictionary
-        o log_in: The user accounts dictionary
-        o userA: The account from which the funds will be transferred
-        o userB: The account to which the funds will be transferred
-        o amount: The amount to transfer
-    '''
-
-    # your code here
     if userA not in bank:
         print(f'{userA} is not in the bank dictionary')
         return False
@@ -214,37 +128,19 @@ def transfer(bank, log_in, userA, userB, amount):
     current_amount_userB = bank[userB]
     bank.update({userA: (current_amount_userA - amount)})
     bank.update({userB: (current_amount_userB + amount)})
+    update_bank(bank)
     print(f'transfer successful, {userA} new balance = {bank[userA]}, {userB} new balance = {bank[userB]}')
     return True
 
 
+# change password
 def change_password(user_accounts: dict, log_in: dict, username: str, old_password: str, new_password: str) -> bool:
-    '''
-    This function allows users to change their password.
-
-    If all of the following requirements are met, change the password and return True. Otherwise, return False.
-    - The username exists in the user_accounts.
-    - The old_password is the user's current password.
-    - The new_password should be different from the old one.
-    - The new_password fulfills the requirement in signup.
-
-    For example:
-    - Calling change_password(user_accounts, log_in, "BrandonK", "123abcABC" ,"123abcABCD") will return False
-    - Calling change_password(user_accounts, log_in, "Brandon", "123abcABCD", "123abcABCDE") will return False
-    - Calling change_password(user_accounts, log_in, "Brandon", "brandon123ABC", "brandon123ABC") will return False
-    - Calling change_password(user_accounts, log_in, "Brandon", "brandon123ABC", c"123abcABCD") will return True
-
-    Hint: Think about defining and using a separate valid(password) function that checks the validity of a given password.
-    This will also come in handy when writing the signup() function.
-    '''
-
-    # your code here
     if username not in user_accounts:
-        print(f'{username} not in user_accounts dict')
+        print(f'{username} not found')
         return False
 
     if not log_in[username]:
-        print(f'{username} not logged in')
+        print(f'{username} must be logged-in to continue')
         return False
 
     if user_accounts[username] != old_password:
@@ -259,27 +155,16 @@ def change_password(user_accounts: dict, log_in: dict, username: str, old_passwo
 
     if isValidPassword:
         user_accounts.update({username: new_password})
-        print(colored('password updated for {username}', 'green'))
+        update_user(user_accounts)
+        print(colored(f'password updated for {username}', 'green'))
         return True
 
     print(f'an error has occurred. Password has not been updated for: {username}')
     return False
 
 
+# delete account
 def delete_account(user_accounts: dict, log_in: dict, bank: dict, username: str, password: str) -> bool:
-    '''
-    Deletes the user from the user_accounts.
-    If the following requirements are met, delete the user from user_accounts and return True.  Otherwise, return False.
-    - The user exists in user_accounts and the password is correct.
-
-    For example:
-    - Calling delete_account(user_accounts, log_in, bank, "BrandonK", "123abcABC") will return False
-    - Calling delete_account(user_accounts, log_in, bank, "Brandon", "123abcABDC") will return False
-    - If you first log "Brandon" in, calling delete_account(user_accounts, log_in, bank, "Brandon", "brandon123ABC")
-    will return True
-    '''
-
-    # your code here
     if username not in user_accounts:
         print(f'{username} was not found')
         return False
@@ -294,7 +179,10 @@ def delete_account(user_accounts: dict, log_in: dict, bank: dict, username: str,
     deleted_account = log_in.pop(username)
     deleted_account = bank.pop(username)
 
-    print(f'{username} has been successfully removed from user_accounts, log_in, and bank dicts')
+    update_user(user_accounts)
+    update_bank(bank)
+
+    print(f'{username} has been successfully deleted')
     return True
 
 

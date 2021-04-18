@@ -1,13 +1,6 @@
-Brandon: 5
+
+Brandon: 120.5
 Patrick: 18.9
-Brandon: xyz
-Jack:
-
-Sarah: 825
-Jack   : 45
-     Brandon:       10
-James: 3.25
-James:   125.62
-Sarah: 2.43
-
-Brandon: 100.5
+Sarah: 827.43
+Jack: 45.0
+James: 128.87

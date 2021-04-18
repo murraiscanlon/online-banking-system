@@ -3,30 +3,27 @@ from user_actions import signup, login, change_password, update, transfer, delet
 
 
 def main():
-    '''
-    The main function is a skeleton for you to test if your overall programming is working.
-    Note we will not test your main function. It is only for you to run and interact with your program.
-    '''
-
     bank = import_and_create_dictionary("bank.txt")
     user_accounts, log_in = import_and_create_accounts("user.txt")  # returns dictionaries
 
     while True:
         # for debugging
-        print('bank:', bank)
-        print('user_accounts:', user_accounts)
-        print('log_in:', log_in)
-        print('')
-        #
+        # print('bank:', bank)
+        # print('user_accounts:', user_accounts)
+        # print('log_in:', log_in)
+        # print('')
 
         option = input(
-            "1. login\n"
-            "2. signup\n"
-            "3. change password\n"
-            "4. delete account\n"
-            "5. update amount\n"
-            "6. make a transfer\n"
-            "0. exit\n"
+            "------------\n"
+            "Options Menu\n"
+            "------------\n"
+            "\t1. login\n"
+            "\t2. signup\n"
+            "\t3. change password\n"
+            "\t4. delete account\n"
+            "\t5. update amount\n"
+            "\t6. make a transfer\n"
+            "\t0. exit\n"
             "What do you want to do?  Please enter a numerical option here: ")
         if option == "1":
             username = input("Please input the username: ")
@@ -34,9 +31,13 @@ def main():
             login(user_accounts, log_in, username, password)  # refactored with typehints
 
         elif option == "2":
-            username = input("Please input the username: ")
-            password = input("Please input the password: ")
-            signup(user_accounts, log_in, username, password)
+            username = input("Please enter a username: ")
+            password = input("\tPassword requirements:\n"
+                             "\t1. 8 characters or longer\n"
+                             "\t2. contains uppercase and lowercase letters\n"
+                             "\t3. Contains at least 1 number\n"
+                             "Please enter a valid password: ")
+            signup(user_accounts, log_in, username, password, bank)
 
         elif option == "3":
             username = input("Please input the username: ")
@@ -77,7 +78,6 @@ def main():
             print("The option is not valid. Please re-enter the option.\n")
 
 
-# This will automatically run the main function in your program
-# Don't change this
+# automatically run main()
 if __name__ == '__main__':
     main()
