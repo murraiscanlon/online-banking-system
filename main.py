@@ -51,27 +51,28 @@ def main():
             delete_account(user_accounts, log_in, bank, username, password)
 
         elif option == "5":
-            username = input("Please input the username\n")
-            amount = input("Please input the amount\n")
+            username = input("Please input the username: ")
+            amount = input("Please input the amount: ")
             try:
                 amount = float(amount)
 
                 # add code to update amount
                 update(bank, log_in, username, amount)
             except:
-                print("The amount is invalid. Please reenter the option\n")
+                print(f"The amount is invalid. Please reenter the option\n")
 
         elif option == "6":
-            userA = input("Please input the user who will be deducted\n")
-            userB = input("Please input the user who will be added\n")
-            amount = input("Please input the amount\n")
+            userA = input("Please input the user who will be deducted: ")
+            userB = input("Please input the user who will be added: ")
+            amount = input("Please input the amount: ")
             try:
                 amount = float(amount)
+
 
                 # add code to transfer amount
                 transfer(bank, log_in, userA, userB, amount)
             except:
-                print("The amount is invalid. Please re-enter the option.\n")
+                print(f"{amount}: The amount is invalid. Please re-enter the option.\n")
         elif option == "0":
             break
         else:

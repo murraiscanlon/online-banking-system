@@ -84,8 +84,9 @@ def update(bank, log_in, username, amount):
     if amount > 0:
         bank.update({username: (current_amount + amount)})
         update_bank(bank)
-        print(
-            f'account deposit successful: {username}: previous balance = {current_amount}, new balance = {bank[username]} ')
+        print(f'Deposit successful!\n'
+              f'previous balance = {format(current_amount, ".2f")}\n'
+              f'new balance = {format(bank[username], ".2f")}')
         return True
     elif amount < 0:
         if current_amount + amount < 0:
@@ -95,7 +96,9 @@ def update(bank, log_in, username, amount):
             current_amount = bank[username]
             bank.update({username: (current_amount + amount)})
             update_bank(bank)
-            print(f'account withdraw successful: previous balance = {current_amount}, new balance = {bank[username]} ')
+            print(f'Withdraw successful!\n'
+                  f'previous balance = {format(current_amount, ".2f")}\n'
+                  f'new balance = {format(bank[username], ".2f")}')
             return True
     else:
         print(f'An error has occurred in the update amount function')
@@ -129,7 +132,9 @@ def transfer(bank, log_in, userA, userB, amount):
     bank.update({userA: (current_amount_userA - amount)})
     bank.update({userB: (current_amount_userB + amount)})
     update_bank(bank)
-    print(f'transfer successful, {userA} new balance = {bank[userA]}, {userB} new balance = {bank[userB]}')
+    print(f'transfer successful for {userA}!\n'
+          f'previous balance = {format(current_amount_userA, ".2f")}\n'
+          f'new balance = {format(bank[userA], ".2f")}')
     return True
 
 
