@@ -1,4 +1,4 @@
-# Online Banking Simulation ![img of application](https://github.com/murraiscanlon/group-project-calculator/blob/master/discount.png)<br />
+# Online Banking Simulation ![img of application](https://github.com/murraiscanlon/online-banking-system/blob/master/images/online-banking.png)<br />
 
 
 ##  PURPOSE: ![img of application](https://github.com/murraiscanlon/group-project-calculator/blob/master/light-bulb32.png)
@@ -32,9 +32,11 @@ that simulates bank customer transactions including sign-up, log-in, transfer fu
 
 
 ## SCREENSHOTS:
-![img of application](https://github.com/murraiscanlon/group-project-calculator/blob/master/app_screen_shot.png)<br /><br /><br />
+![img of application](https://github.com/murraiscanlon/online-banking-system/blob/master/images/banking-options-menu.png)<br /><br /><br />
 
-![img of application](https://github.com/murraiscanlon/group-project-calculator/blob/master/file_output.png)<br /><br /><br />
+![img of application](https://github.com/murraiscanlon/online-banking-system/blob/master/images/banking-transfer.png)<br /><br /><br />
+
+![img of application](https://github.com/murraiscanlon/online-banking-system/blob/master/images/bankroll.png)<br /><br /><br />
 
 <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
