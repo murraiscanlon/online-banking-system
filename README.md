@@ -11,7 +11,7 @@ that simulates bank customer transactions including sign-up, log-in, transfer fu
 * Add additional input validation and error handling
 * Create classes for account holders
 * finish adding red and green colored output messages (success/failure indicators)
-* <br /><br /><br />
+<br /><br /><br />
 
 ## :sparkles: APPLICATION FEATURES:
 - [X] User sign-up with 0 balance
